@@ -1,0 +1,60 @@
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+	CURLOPT_URL => "https://sky-scanner3.p.rapidapi.com/flights/search-multi-city",
+	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_ENCODING => "",
+	CURLOPT_MAXREDIRS => 10,
+	CURLOPT_TIMEOUT => 30,
+	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	CURLOPT_CUSTOMREQUEST => "POST",
+	CURLOPT_POSTFIELDS => json_encode([
+		'market' => 'US',
+		'locale' => 'en-US',
+		'currency' => 'USD',
+		'adults' => 1,
+		'children' => 0,
+		'infants' => 0,
+		'cabinClass' => 'economy',
+		'stops' => [
+				'direct',
+				'1stop',
+				'2stops'
+		],
+		'sort' => 'cheapest_first',
+		'airlines' => [
+				-32753,
+				-32695
+		],
+		'flights' => [
+				[
+								'fromEntityId' => 'BCN',
+								'toEntityId' => 'NUE',
+								'departDate' => '2024-06-21'
+				],
+				[
+								'fromEntityId' => 'PARI',
+								'toEntityId' => 'MSYA',
+								'departDate' => '2024-06-28'
+				]
+		]
+	]),
+	CURLOPT_HTTPHEADER => [
+		"Content-Type: application/json",
+		"x-rapidapi-host: sky-scanner3.p.rapidapi.com",
+		"x-rapidapi-key: ee05091ed5msh076638b3e7ac8c4p13d8d6jsnad6d89854279"
+	],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+	echo "cURL Error #:" . $err;
+} else {
+	echo $response;
+}
